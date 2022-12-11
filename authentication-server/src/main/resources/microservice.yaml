@@ -1,0 +1,64 @@
+#
+## ---------------------------------------------------------------------------
+## Licensed to the Apache Software Foundation (ASF) under one or more
+## contributor license agreements.  See the NOTICE file distributed with
+## this work for additional information regarding copyright ownership.
+## The ASF licenses this file to You under the Apache License, Version 2.0
+## (the "License"); you may not use this file except in compliance with
+## the License.  You may obtain a copy of the License at
+##
+##      http://www.apache.org/licenses/LICENSE-2.0
+##
+## Unless required by applicable law or agreed to in writing, software
+## distributed under the License is distributed on an "AS IS" BASIS,
+## WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+## See the License for the specific language governing permissions and
+## limitations under the License.
+## ---------------------------------------------------------------------------
+
+# override common configurations in common module
+servicecomb-config-order: 100
+
+APPLICATION_ID: authentication-application
+service_description:
+  version: 0.0.1
+  name: authentication-server
+  environment: development
+
+servicecomb:
+  service:
+    registry:
+      address: http://localhost:30100
+      instance:
+        watch: false
+
+  rest:
+    address: 0.0.0.0:9061
+
+  accesslog:
+    ## server 端 启用access log
+    enabled: true
+    ##  server 端 自定义 access log 日志格式
+    pattern: "%h %r %s %B %D"
+    request:
+      ## client 端开启 request log
+      enabled: true
+      ## client 端自定义 request log 日志格式
+      pattern: "%h %SCB-transport %r %s %D"
+
+  authentication:
+    token:
+      expiresIn: 600
+      guestExpiresQuickly:
+        expiresIn: 3
+
+    github:
+      clientId: 94300caee0725405fde1 # WARNING: change to your github client id
+      clientSecret: b139dbc8fe8be9153f68049bfa8387dfde33f1c9 # WARNING: change to your github client secret
+
+db:
+  password: root # WARNING: please change password in production environment
+
+GithubOAuthService:
+  urls:
+    - rest://github.com:443?sslEnabled=true
